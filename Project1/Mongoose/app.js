@@ -7,8 +7,10 @@ const { functionsIn } = require('lodash');
 
 var port = 8080;
 // var db = 'mongodb://localhost/example'
-var db = 'mongodb+srv://username:password@cluster0.rrevs.mongodb.net/example'
+var db = 'mongodb+srv://username:password%4012@cluster0.rrevs.mongodb.net/example'
 
+//use native ES6 promises
+mongoose.Promise = global.Promise;
 mongoose.connect(db);
 
 app.use(bodyParser.json())
@@ -21,19 +23,33 @@ app.get('/',function(req,res){
     res.send('happy to be here');
 });
 
-//get all books from mongodb
-app.get('/books', function(req, res){
+// //get all books from mongodb
+// app.get('/books', function(req, res){
+//     console.log('getting all books');
+//     Book.find({})
+//     .exec(function(err, books){
+//         if(err){
+//             res.send('error has occured');
+//         } else{
+//             console.log(books);
+//             res.json(books);
+//         }
+//     })
+// });
+
+//promises
+app.get('/books', (req, res) => {
     console.log('getting all books');
     Book.find({})
-    .exec(function(err, books){
-        if(err){
-            res.send('error has occured');
-        } else{
-            console.log(books);
-            res.json(books);
-        }
-    })
-});
+      .exec()
+      .then((books) => {
+        console.log(books);
+        res.json(books);
+      })
+      .catch((err) => {
+        res.send('error occured');
+      });
+   });
 
 //get books by id from the database
 app.get('/books/:id', function(req,res){
