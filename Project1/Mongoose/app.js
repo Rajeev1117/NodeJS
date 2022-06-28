@@ -7,7 +7,7 @@ const { functionsIn } = require('lodash');
 
 var port = 8080;
 // var db = 'mongodb://localhost/example'
-var db = 'mongodb+srv://Username:Password@cluster0.rrevs.mongodb.net/example'
+var db = 'mongodb+srv://username:password@cluster0.rrevs.mongodb.net/example'
 
 mongoose.connect(db);
 
@@ -80,6 +80,38 @@ app.post('/book', function(req, res){
 //       }
 //     });
 //   });
+
+//update a book in the database
+app.put('/book/:id', function(req, res){
+    Book.findOneAndUpdate({
+        _id: req.params.id
+    },
+    { $set: {title:req.body.title, author:req.body.author, category:req.body.category}},
+    { upsert: true },
+    function(err, newBook){
+        if(err){
+            console.log('error occured');
+        } else{
+            console.log(newBook);
+            res.send(newBook);
+        }
+    });
+});
+
+//delete book by id from the database
+app.delete('/book/:id', function(req, res){
+    Book.findOneAndRemove({
+        _id: req.params.id
+    }, function(err, book){
+        if(err){
+            res.send('error occured');
+        }else{
+            console.log(book);
+            res.status(204);
+        }
+    });
+});
+
   
 
 app.listen(port, function() {
