@@ -4,10 +4,6 @@ const fs = require("fs");
 let filenames = fs.readdirSync('./');
 
 console.log("\nFilenames in directory:");
-// // for showing all files 
-// filenames.forEach((file) => {
-// 	console.log("File:", file);
-// });
 filenames.forEach((file) => {
     if( file.endsWith(".js")){
         console.log("File:",file)
@@ -21,3 +17,17 @@ filenames.forEach((file) => {
         console.log("DIR:",file)
     }
 });
+
+
+// //another way to write this code
+// path = require("path");
+
+// var p = "./"
+// fs.readdir(p, function (err, files) {
+//     if (err) throw err;
+
+//     files.forEach(function (file) {
+//         if (fs.statSync(file).isDirectory()) console.log ("DIR: " + file);
+//         else console.log("FILE: " + file);
+//     });
+// });
