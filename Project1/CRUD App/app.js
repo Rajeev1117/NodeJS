@@ -63,7 +63,8 @@ app.use(function(req, res, next){
 //Db Connection Start 
 mongoose.Promise = global.Promise;
 // mongodb://localhost:27017/Rajeev
-mongoose.connect('mongodb+srv://Username:Password@cluster0.rrevs.mongodb.net/USER', { useUnifiedTopology: true, useNewUrlParser: true })
+// mongodb+srv://Username:Password@cluster0.rrevs.mongodb.net/USER
+mongoose.connect('mongodb://localhost:27017/Rajeev', { useUnifiedTopology: true, useNewUrlParser: true })
 .then(() => console.log('connection succesful'))
 .catch((err) => console.error(err))
 
